@@ -63,52 +63,32 @@ type ByCountry struct {
 	Status    string
 }
 
+func byCountry(format string, params ...interface{}) ([]ByCountry, error) {
+	var res []ByCountry
+
+	endpoint := fmt.Sprintf(format, params...)
+
+	err := fetchInto(&res, endpoint)
+
+	return res, err
+}
+
 func GetLiveByCountryAndStatusAfterDate(country, status string, date time.Time) ([]ByCountry, error) {
-	var cs []ByCountry
-
-	endpoint := fmt.Sprintf("live/country/%s/status/%s/date/%s", country, status, date.Format(time.RFC3339))
-
-	err := fetchInto(&cs, endpoint)
-
-	return cs, err
+	return byCountry("live/country/%s/status/%s/date/%s", country, status, date.Format(time.RFC3339))
 }
 
 func GetLiveByCountryAndStatus(country, status string) ([]ByCountry, error) {
-	var cs []ByCountry
-
-	endpoint := fmt.Sprintf("live/country/%s/status/%s", country, status)
-
-	err := fetchInto(&cs, endpoint)
-
-	return cs, err
+	return byCountry("live/country/%s/status/%s", country, status)
 }
 
 func GetByCountry(country, status string) ([]ByCountry, error) {
-	var cs []ByCountry
-
-	endpoint := fmt.Sprintf("country/%s/status/%s", country, status)
-
-	err := fetchInto(&cs, endpoint)
-
-	return cs, err
+	return byCountry("country/%s/status/%s", country, status)
 }
 
 func GetByCountryLive(country, status string) ([]ByCountry, error) {
-	var cs []ByCountry
-
-	endpoint := fmt.Sprintf("country/%s/status/%s/live", country, status)
-
-	err := fetchInto(&cs, endpoint)
-
-	return cs, err
+	return byCountry("country/%s/status/%s/live", country, status)
 }
 
 func GetByCountryTotal(country, status string) ([]ByCountry, error) {
-	var cs []ByCountry
-
-	endpoint := fmt.Sprintf("total/country/%s/status/%s", country, status)
-
-	err := fetchInto(&cs, endpoint)
-
-	return cs, err
+	return byCountry("total/country/%s/status/%s", country, status)
 }
