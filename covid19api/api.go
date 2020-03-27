@@ -36,15 +36,19 @@ func fetch(endpoint string) ([]byte, error) {
 	return ioutil.ReadAll(res.Body)
 }
 
+func fetchInto(v interface{}, endpoint string) error {
+	body, err := fetch(endpoint)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(body, &v)
+}
+
 func GetSummary() (Summary, error) {
 	var s Summary
 
-	body, err := fetch("summary")
-	if err != nil {
-		return s, nil
-	}
-
-	err = json.Unmarshal(body, &s)
+	err := fetchInto(&s, "summary")
 
 	return s, err
 }
@@ -64,12 +68,7 @@ func GetLiveByCountryAndStatusAfterDate(country, status string, date time.Time) 
 
 	endpoint := fmt.Sprintf("live/country/%s/status/%s/date/%s", country, status, date.Format(time.RFC3339))
 
-	body, err := fetch(endpoint)
-	if err != nil {
-		return nil, nil
-	}
-
-	err = json.Unmarshal(body, &cs)
+	err := fetchInto(&cs, endpoint)
 
 	return cs, err
 }
