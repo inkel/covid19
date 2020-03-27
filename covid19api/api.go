@@ -72,3 +72,43 @@ func GetLiveByCountryAndStatusAfterDate(country, status string, date time.Time) 
 
 	return cs, err
 }
+
+func GetLiveByCountryAndStatus(country, status string) ([]ByCountry, error) {
+	var cs []ByCountry
+
+	endpoint := fmt.Sprintf("live/country/%s/status/%s", country, status)
+
+	err := fetchInto(&cs, endpoint)
+
+	return cs, err
+}
+
+func GetByCountry(country, status string) ([]ByCountry, error) {
+	var cs []ByCountry
+
+	endpoint := fmt.Sprintf("country/%s/status/%s", country, status)
+
+	err := fetchInto(&cs, endpoint)
+
+	return cs, err
+}
+
+func GetByCountryLive(country, status string) ([]ByCountry, error) {
+	var cs []ByCountry
+
+	endpoint := fmt.Sprintf("country/%s/status/%s/live", country, status)
+
+	err := fetchInto(&cs, endpoint)
+
+	return cs, err
+}
+
+func GetByCountryTotal(country, status string) ([]ByCountry, error) {
+	var cs []ByCountry
+
+	endpoint := fmt.Sprintf("total/country/%s/status/%s", country, status)
+
+	err := fetchInto(&cs, endpoint)
+
+	return cs, err
+}
