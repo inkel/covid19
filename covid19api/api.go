@@ -53,7 +53,7 @@ func GetSummary() (Summary, error) {
 	return s, err
 }
 
-type ByCountry struct {
+type CountryStatus struct {
 	Country   string
 	Province  string
 	Latitude  float32 `json:"Lat"`
@@ -63,8 +63,8 @@ type ByCountry struct {
 	Status    string
 }
 
-func byCountry(format string, params ...interface{}) ([]ByCountry, error) {
-	var res []ByCountry
+func byCountry(format string, params ...interface{}) ([]CountryStatus, error) {
+	var res []CountryStatus
 
 	endpoint := fmt.Sprintf(format, params...)
 
@@ -73,22 +73,22 @@ func byCountry(format string, params ...interface{}) ([]ByCountry, error) {
 	return res, err
 }
 
-func GetLiveByCountryAndStatusAfterDate(country, status string, date time.Time) ([]ByCountry, error) {
+func GetLiveByCountryAndStatusAfterDate(country, status string, date time.Time) ([]CountryStatus, error) {
 	return byCountry("live/country/%s/status/%s/date/%s", country, status, date.Format(time.RFC3339))
 }
 
-func GetLiveByCountryAndStatus(country, status string) ([]ByCountry, error) {
+func GetLiveByCountryAndStatus(country, status string) ([]CountryStatus, error) {
 	return byCountry("live/country/%s/status/%s", country, status)
 }
 
-func GetByCountry(country, status string) ([]ByCountry, error) {
+func GetByCountry(country, status string) ([]CountryStatus, error) {
 	return byCountry("country/%s/status/%s", country, status)
 }
 
-func GetByCountryLive(country, status string) ([]ByCountry, error) {
+func GetByCountryLive(country, status string) ([]CountryStatus, error) {
 	return byCountry("country/%s/status/%s/live", country, status)
 }
 
-func GetByCountryTotal(country, status string) ([]ByCountry, error) {
+func GetByCountryTotal(country, status string) ([]CountryStatus, error) {
 	return byCountry("total/country/%s/status/%s", country, status)
 }
