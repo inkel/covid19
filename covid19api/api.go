@@ -24,20 +24,16 @@ type Summary struct {
 	Date      time.Time        `json:"Date"`
 }
 
-func fetch(endpoint string) ([]byte, error) {
+func fetchInto(v interface{}, endpoint string) error {
 	url := fmt.Sprintf("https://api.covid19api.com/%s", endpoint)
 
 	res, err := http.Get(url)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer res.Body.Close()
 
-	return ioutil.ReadAll(res.Body)
-}
-
-func fetchInto(v interface{}, endpoint string) error {
-	body, err := fetch(endpoint)
+	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return err
 	}
